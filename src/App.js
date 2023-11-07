@@ -1,18 +1,15 @@
-import { KindeProvider } from "@kinde-oss/kinde-auth-react";
-import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 
-const App = () => (
-  <KindeProvider
-    clientId={process.env.REACT_APP_KINDE_CLIENT_ID}
-    domain="https://lystad.kinde.com"
-    redirectUri="http://localhost:3000"
-    logoutUri="http://localhost:3000">
+const App = () => {
+  return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
-  </KindeProvider>
-);
+  );
+};
 
 export default App;
