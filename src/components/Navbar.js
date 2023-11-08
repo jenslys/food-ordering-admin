@@ -32,7 +32,7 @@ export default function Navbar() {
           {isSignedIn ? (
             <UserButton />
           ) : (
-            <Button color="inherit" onClick={loginRedirect()}>
+            <Button color="inherit" onClick={() => loginRedirect()}>
               Sign In
             </Button>
           )}

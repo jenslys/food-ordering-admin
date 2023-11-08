@@ -12,7 +12,7 @@ export default function Home() {
         height: "100vh"
       }}>
       <Typography variant="h1" style={{ marginBottom: "20px", fontSize: "3em" }}>
-        Loading
+        Food ordering app
       </Typography>
     </div>
   );
