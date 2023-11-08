@@ -4,6 +4,10 @@ import Dashboard from "./pages/Dashboard";
 import "./App.css";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
