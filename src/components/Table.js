@@ -47,7 +47,15 @@ export default function CustomTable() {
   return (
     <TableContainer component={Paper}>
       {loading ? (
-        <CircularProgress />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%"
+          }}>
+          <CircularProgress />
+        </div>
       ) : (
         <Table>
           <TableHead>
