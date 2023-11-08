@@ -21,15 +21,28 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Orders
-          </Typography>
           {isSignedIn ? (
-            <UserButton />
+            <>
+              <Button color="inherit" onClick={() => navigate("/dashboard")}>
+                Dashboard
+              </Button>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                {/* Remove the "Orders" text */}
+              </Typography>
+              <UserButton />
+            </>
           ) : (
-            <Button color="inherit" onClick={() => loginRedirect()}>
-              Sign In
-            </Button>
+            <>
+              <Button color="inherit" onClick={() => navigate("/dashboard")}>
+                Dashboard
+              </Button>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                {/* Remove the "Orders" text */}
+              </Typography>
+              <Button color="inherit" onClick={() => loginRedirect()}>
+                Sign In
+              </Button>
+            </>
           )}
         </Toolbar>
       </AppBar>
