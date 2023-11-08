@@ -45,62 +45,66 @@ export default function CustomTable() {
   };
 
   return (
-    <TableContainer component={Paper}>
-      {loading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%"
-          }}>
-          <CircularProgress />
-        </div>
-      ) : (
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Full Name</TableCell>
-              <TableCell>Phone Number</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Items Ordered</TableCell>
-              <TableCell>Total Price</TableCell>
-              <TableCell>Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order) => (
-              <TableRow key={order.id}>
-                <TableCell>
-                  {order.firstName} {order.lastName}
-                </TableCell>
-                <TableCell>{order.phoneNumber}</TableCell>
-                <TableCell>
-                  <Link
-                    href={`https://maps.google.com/?q=${order.address}, ${order.city}, ${order.zipCode}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    underline="hover">
-                    {order.address}, {order.city}, {order.zipCode}
-                  </Link>
-                </TableCell>
-                <TableCell>{order.itemsBought.join(", ")}</TableCell>
-                <TableCell>{order.totalPrice} NOK</TableCell>
-                <TableCell>{order.date.toDate().toLocaleString()}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={orders.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </TableContainer>
+    <div style={{ padding: "16px" }}>
+      <Paper style={{ padding: "16px" }}>
+        <TableContainer>
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%"
+              }}>
+              <CircularProgress />
+            </div>
+          ) : (
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Full Name</TableCell>
+                  <TableCell>Phone Number</TableCell>
+                  <TableCell>Address</TableCell>
+                  <TableCell>Items Ordered</TableCell>
+                  <TableCell>Total Price</TableCell>
+                  <TableCell>Date</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell>
+                      {order.firstName} {order.lastName}
+                    </TableCell>
+                    <TableCell>{order.phoneNumber}</TableCell>
+                    <TableCell>
+                      <Link
+                        href={`https://maps.google.com/?q=${order.address}, ${order.city}, ${order.zipCode}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        underline="hover">
+                        {order.address}, {order.city}, {order.zipCode}
+                      </Link>
+                    </TableCell>
+                    <TableCell>{order.itemsBought.join(", ")}</TableCell>
+                    <TableCell>{order.totalPrice} NOK</TableCell>
+                    <TableCell>{order.date.toDate().toLocaleString()}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={orders.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </div>
   );
 }
