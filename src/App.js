@@ -8,6 +8,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import Edit from "./pages/Edit";
 
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
@@ -41,6 +42,19 @@ function ClerkProviderWithRoutes() {
             <>
               <SignedIn>
                 <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
+        <Route
+          path="/edit"
+          element={
+            <>
+              <SignedIn>
+                <Edit />
               </SignedIn>
               <SignedOut>
                 <RedirectToSignIn />
