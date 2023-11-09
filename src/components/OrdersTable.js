@@ -19,7 +19,7 @@ import {
   Link
 } from "@mui/material";
 
-export default function OrdersTabel() {
+export default function OrdersTable() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
