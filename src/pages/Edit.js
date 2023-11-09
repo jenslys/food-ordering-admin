@@ -1,5 +1,9 @@
-import React from "react";
+import EditItemTable from "../components/EditItemTable";
 
 export default function Edit() {
-  return <div>Edit</div>;
+  return (
+    <div>
+      <EditItemTable />
+    </div>
+  );
 }

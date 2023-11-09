@@ -1,6 +1,6 @@
 import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn, SignIn } from "@clerk/clerk-react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
+import Orders from "./pages/Orders";
 import "./App.css";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
@@ -37,11 +37,11 @@ function ClerkProviderWithRoutes() {
           }
         />
         <Route
-          path="/dashboard"
+          path="/orders"
           element={
             <>
               <SignedIn>
-                <Dashboard />
+                <Orders />
               </SignedIn>
               <SignedOut>
                 <RedirectToSignIn />

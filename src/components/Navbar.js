@@ -23,8 +23,8 @@ export default function Navbar() {
         <Toolbar>
           {isSignedIn ? (
             <>
-              <Button color="inherit" onClick={() => navigate("/dashboard")}>
-                Dashboard
+              <Button color="inherit" onClick={() => navigate("/orders")}>
+                Orders
               </Button>
               <Button color="inherit" onClick={() => navigate("/edit")}>
                 Edit

@@ -16,7 +16,7 @@ import {
   Link
 } from "@mui/material";
 
-export default function CustomTable() {
+export default function OrdersTabel() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -59,7 +59,7 @@ export default function CustomTable() {
               <CircularProgress />
             </div>
           ) : (
-            <Table>
+            <Table size="small">
               <TableHead>
                 <TableRow>
                   <TableCell>Full Name</TableCell>
