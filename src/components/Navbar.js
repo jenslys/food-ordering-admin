@@ -29,17 +29,12 @@ export default function Navbar() {
               <Button color="inherit" onClick={() => navigate("/edit")}>
                 Edit
               </Button>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                {/* Remove the "Orders" text */}
-              </Typography>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
               <UserButton />
             </>
           ) : (
             <>
-              {/* Remove the Dashboard button */}
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                {/* Remove the "Orders" text */}
-              </Typography>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
               <Button color="inherit" onClick={() => loginRedirect()}>
                 Sign In
               </Button>
