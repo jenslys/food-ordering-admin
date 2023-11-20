@@ -83,7 +83,7 @@ export default function EditItemTable() {
                 <TextField
                   type="number"
                   value={item.price}
-                  onChange={(e) => handleEdit(item.id, "price", e.target.value)}
+                  onChange={(e) => handleEdit(item.id, "price", parseInt(e.target.value))}
                 />
               </TableCell>
               <TableCell>
