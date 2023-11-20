@@ -27,13 +27,22 @@ function ClerkProviderWithRoutes() {
         <Route
           path="/sign-in/*"
           element={
-            <SignIn
-              routing="path"
-              path="/sign-in"
-              appearance={{
-                elements: { footerAction: { display: "none" } }
-              }}
-            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh"
+              }}>
+              {" "}
+              <SignIn
+                routing="path"
+                path="/sign-in"
+                appearance={{
+                  elements: { footerAction: { display: "none" } }
+                }}
+              />
+            </div>
           }
         />
         <Route

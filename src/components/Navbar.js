@@ -13,7 +13,7 @@ export default function Navbar() {
   const { isSignedIn } = useUser();
 
   const loginRedirect = () => {
-    let path = `/orders`;
+    let path = `/sign-in`;
     navigate(path);
   };
 
