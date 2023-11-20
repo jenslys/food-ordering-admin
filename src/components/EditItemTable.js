@@ -1,67 +1,103 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}>
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`
-  };
-}
+import React, { useState, useEffect } from "react";
+import { collection, getDocs, doc, updateDoc, addDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../firebase/config";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Button
+} from "@mui/material";
 
 export default function EditItemTable() {
-  const [value, setValue] = React.useState(0);
+  const [items, setItems] = useState([]);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  useEffect(() => {
+    const fetchItems = async () => {
+      const querySnapshot = await getDocs(collection(db, "pizza"));
+      const data = [];
+      querySnapshot.forEach((doc) => {
+        data.push({ id: doc.id, ...doc.data() });
+      });
+      setItems(data);
+    };
+    fetchItems();
+  }, []);
+
+  const handleEdit = (id, field, value) => {
+    const updatedItems = items.map((item) => {
+      if (item.id === id) {
+        return { ...item, [field]: value };
+      }
+      return item;
+    });
+    setItems(updatedItems);
+    const docRef = doc(db, "pizza", id);
+    updateDoc(docRef, { [field]: value });
+  };
+
+  const handleAddItem = async () => {
+    const newItem = { imagePath: "", itemName: "", price: 0 }; // Define new item structure
+    const docRef = await addDoc(collection(db, "pizza"), newItem); // Add new item to the collection
+    setItems([...items, { id: docRef.id, ...newItem }]); // Update state with the new item
+  };
+
+  const handleDeleteItem = async (id) => {
+    const updatedItems = items.filter((item) => item.id !== id);
+    setItems(updatedItems);
+    const docRef = doc(db, "pizza", id);
+    await deleteDoc(docRef);
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Pizza" {...a11yProps(0)} />
-          <Tab label="Drinks" {...a11yProps(1)} />
-          <Tab label="Extras" {...a11yProps(2)} />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        Pizza table here
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        Drinks table here
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Extras table here
-      </CustomTabPanel>
-    </Box>
+    <TableContainer component={Box}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Image</TableCell>
+            <TableCell>Item Name</TableCell>
+            <TableCell>Price</TableCell>
+            <TableCell>Action</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>
+                <TextField
+                  value={item.imagePath}
+                  onChange={(e) => handleEdit(item.id, "imagePath", e.target.value)}
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  value={item.itemName}
+                  onChange={(e) => handleEdit(item.id, "itemName", e.target.value)}
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  type="number"
+                  value={item.price}
+                  onChange={(e) => handleEdit(item.id, "price", e.target.value)}
+                />
+              </TableCell>
+              <TableCell>
+                <Button onClick={() => handleDeleteItem(item.id)}>Delete</Button>{" "}
+              </TableCell>
+            </TableRow>
+          ))}
+          <TableRow>
+            <TableCell colSpan={4}>
+              <Button onClick={handleAddItem}>Add New Item</Button> {/* Button to add a new item */}
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
