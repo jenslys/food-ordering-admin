@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import "firebase/firestore";
 import { db } from "../firebase/config";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { Box, Collapse, IconButton, Typography } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-
 import {
+  Box,
+  Collapse,
+  IconButton,
+  Typography,
   Table,
   TableBody,
   TableCell,
@@ -16,8 +16,11 @@ import {
   Paper,
   CircularProgress,
   TablePagination,
+  Divider,
   Link
 } from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 export default function OrdersTable() {
   const [orders, setOrders] = useState([]);
@@ -94,14 +97,14 @@ export default function OrdersTable() {
                       <TableCell>
                         {order.firstName} {order.lastName}
                       </TableCell>
-                      <TableCell>{order.phoneNumber}</TableCell>
+                      <TableCell>{order.phone}</TableCell>
                       <TableCell>
                         <Link
-                          href={`https://maps.google.com/?q=${order.address}, ${order.city}, ${order.zipCode}`}
+                          href={`https://maps.google.com/?q=${order.address}, ${order.city}, ${order.zipcode}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           underline="hover">
-                          {order.address}, {order.city}, {order.zipCode}
+                          {order.address}, {order.city}, {order.zipcode}
                         </Link>
                       </TableCell>
                       <TableCell>{order.totalPrice} NOK</TableCell>
@@ -114,12 +117,20 @@ export default function OrdersTable() {
                             <Typography variant="h6" gutterBottom component="div">
                               Items Ordered
                             </Typography>
-                            {order.itemsBought.map((item) => (
-                              <Typography key={item}>{item}</Typography>
+                            {order.cartItems.map((item, index) => (
+                              <div key={index}>
+                                <Divider />
+                                <Typography>Item: {item.itemName}</Typography>
+                                <Typography>Price: {item.price} NOK</Typography>
+                                <Typography>Quantity: {item.quantity}</Typography>
+                                <Typography>Size: {item.size}</Typography>
+                              </div>
                             ))}
+                            <Divider />
                             <Typography variant="h6" gutterBottom component="div">
                               Total Price: {order.totalPrice} NOK
                             </Typography>
+                            <Divider />
                           </Box>
                         </Collapse>
                       </TableCell>

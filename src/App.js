@@ -23,7 +23,19 @@ function ClerkProviderWithRoutes() {
     <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <SignedIn>
+                <Orders />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>
+          }
+        />
         <Route
           path="/sign-in/*"
           element={
