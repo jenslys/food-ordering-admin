@@ -1,5 +1,6 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 export default function Home() {
   return (
@@ -14,6 +15,9 @@ export default function Home() {
       <Typography variant="h1" style={{ marginBottom: "20px", fontSize: "3em" }}>
         Food ordering app
       </Typography>
+      <Button variant="contained" color="primary" href="/sign-in/">
+        Log in
+      </Button>
     </div>
   );
 }
