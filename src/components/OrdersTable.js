@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "firebase/firestore";
 import { db } from "../firebase/config";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, deleteDoc, doc } from "firebase/firestore";
 import {
   Box,
   Collapse,
@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function OrdersTable() {
   const [orders, setOrders] = useState([]);
@@ -55,6 +56,23 @@ export default function OrdersTable() {
     setOpenRowId(openRowId === id ? null : id);
   };
 
+  const handleDeleteOrder = async (orderId) => {
+    try {
+      // Make an asynchronous call to delete the order
+      await deleteOrderFromDatabase(orderId);
+
+      // Remove the deleted order from the local state
+      setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+    } catch (error) {
+      console.error("Error deleting order:", error.message);
+    }
+  };
+
+  const deleteOrderFromDatabase = async (orderId) => {
+    const orderRef = doc(db, "orders", orderId);
+    await deleteDoc(orderRef);
+  };
+
   return (
     <div style={{ padding: "16px" }}>
       <Paper style={{ padding: "16px" }}>
@@ -79,6 +97,7 @@ export default function OrdersTable() {
                   <TableCell>Address</TableCell>
                   <TableCell>Total Price</TableCell>
                   <TableCell>Date</TableCell>
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -109,9 +128,14 @@ export default function OrdersTable() {
                       </TableCell>
                       <TableCell>{order.totalPrice} NOK</TableCell>
                       <TableCell>{order.date.toDate().toLocaleString()}</TableCell>
+                      <TableCell>
+                        <IconButton size="small" onClick={() => handleDeleteOrder(order.id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
                         <Collapse in={openRowId === order.id} timeout="auto" unmountOnExit>
                           <Box sx={{ margin: 1 }}>
                             <Typography variant="h6" gutterBottom component="div">
